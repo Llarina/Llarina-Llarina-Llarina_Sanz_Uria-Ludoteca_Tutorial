@@ -1,0 +1,39 @@
+<h1>Crear Préstamo</h1>
+<form>
+    <mat-form-field>
+        <mat-label>Identificador</mat-label>
+        <input type="text" matInput placeholder="Identificador" [(ngModel)]="loan.id" name="id" disabled>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <mat-label>Nombre del Juego</mat-label>
+        <input type="text" matInput placeholder="Nombre del juego" [(ngModel)]="loan.gameName" name="gameName" required>
+        <mat-error>El nombre del juego no puede estar vacío</mat-error>
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field>
+        <mat-label>Nombre del clinte</mat-label>
+        <input type="text" matInput placeholder="Nombre del cliente" [(ngModel)]="loan.clientName" name="clientName" required>
+        <mat-error>El nombre del cliente no puede estar vacío</mat-error>
+    </mat-form-field>
+
+    <br>
+    <mat-form-field>
+        <mat-label>Fecha de préstamo</mat-label>
+        <input type="date" matInput placeholder="Fecha de préstamo" [(ngModel)]="loan.loanDate" name="loanDate" required>
+        <mat-error>Las fechas no pueden estar vacías</mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <mat-label>Fecha de devolución</mat-label>
+        <input type="date" matInput placeholder="Fecha de devolución" [(ngModel)]="loan.returnDate" name="reurnDate" required>
+        <mat-error>Las fechas no pueden estar vacías</mat-error>
+    </mat-form-field>
+
+</form>
+
+<div class="buttons">
+    <button mat-stroked-button (click)="onClose()">Cerrar</button>
+    <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
+</div>
