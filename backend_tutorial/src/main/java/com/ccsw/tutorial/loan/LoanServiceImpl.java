@@ -32,17 +32,28 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public Page<Loan> findLoans(String gameName, String clientName, Date loanDate, Pageable pageable, String sort) {
-        /*Specification<Loan> spec = Specification.where(null);
+        /*List<Loan> loans = new ArrayList<>();
+        List<Loan> loanGameName = loanRepository.findAllByGameName(gameName);
+        List<Loan> loanClientName = loanRepository.findAllByClientName(clientName);
+        List<Loan> loanDateList = loanRepository.findAllByLoanDate(loanDate);
         if (gameName != null) {
-            spec = spec.and(new LoanSpecification(new SearchCriteria("gameName", ":", gameName)));
+            for (int i = 0; i < loanGameName.size(); i++) {
+                loans.add(loanGameName.get(i));
+            }
+        } else if (clientName != null) {
+            for (int i = 0; i < loanClientName.size(); i++) {
+                loans.add(loanClientName.get(i));
+            }
+        } else if (loanDate != null) {
+            for (int i = 0; i < loanDateList.size(); i++) {
+                loans.add(loanDateList.get(i));
+            }
         }
-        if (clientName != null) {
-            spec = spec.and(new LoanSpecification(new SearchCriteria("clientName", ":", clientName)));
-        }
-        if (loanDate != null) {
-            spec = spec.and(new LoanSpecification(new SearchCriteria("loanDate", ":", loanDate)));
-        }*/
+        if (gameName == null && clientName == null && loanDate == null) {*/
         return loanRepository.findAll(pageable);
+        /*} else {
+            return (Page<Loan>) loans;
+        }*/
     }
 
     /**
