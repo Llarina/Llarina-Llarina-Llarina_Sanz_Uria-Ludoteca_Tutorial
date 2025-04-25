@@ -6,6 +6,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoanEditComponent } from '../loan-edit/loan-edit.component';
 import { DialogConfirmationComponent } from 'src/app/core/dialog-confirmation/dialog-confirmation.component';
 import { PageEvent } from '@angular/material/paginator';
+import { Client } from 'src/app/client/model/Client';
+import { ClientService } from 'src/app/client/client.service';
+import { Game } from 'src/app/game/model/Game';
+import { GameService } from 'src/app/game/game.service';
 
 @Component({
   selector: 'app-loan-list',
@@ -23,14 +27,28 @@ export class LoanListComponent implements OnInit {
   pageNumber: number = 0;
   pageSize: number = 5;
   totalElements: number = 0;
+  filterLoan: Loan;
+  clients: Client[]=[];
+  games: Game[]=[];
+
 
   constructor(
     private loanService: LoanService,
     public dialog: MatDialog,
+    private clientService : ClientService,
+    private gameService : GameService,
   ) { }
 
   ngOnInit(): void {
     this.loadPage();
+
+    this.clientService.getClients().subscribe(
+      clients => { this.clients = clients }
+    );
+
+    this.gameService.getGames().subscribe(
+      games => { this.games = games }
+    );
   }
 
   onCleanFilter(): void {
@@ -47,6 +65,7 @@ export class LoanListComponent implements OnInit {
     let gameName = this.filterGameName;
     let clientName = this.filterClientName;
     let loanDate = this.filterLoanDate;
+
 
 
     this.loanService.getLoans({

@@ -33,22 +33,22 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public Page<Loan> findLoans(String gameName, String clientName, Date loanDate, Pageable pageable, String sort) {
         /*List<Loan> loans = new ArrayList<>();
-        List<Loan> loanGameName = loanRepository.findAllByGameName(gameName);
-        List<Loan> loanClientName = loanRepository.findAllByClientName(clientName);
-        List<Loan> loanDateList = loanRepository.findAllByLoanDate(loanDate);
-        if (gameName != null) {
-            for (int i = 0; i < loanGameName.size(); i++) {
-                loans.add(loanGameName.get(i));
-            }
-        } else if (clientName != null) {
-            for (int i = 0; i < loanClientName.size(); i++) {
-                loans.add(loanClientName.get(i));
-            }
-        } else if (loanDate != null) {
-            for (int i = 0; i < loanDateList.size(); i++) {
-                loans.add(loanDateList.get(i));
-            }
+        if (gameName != null && clientName == null && loanDate == null) {
+            loans.addAll(loanRepository.findAllByGameName(gameName));
+        } else if (clientName != null && gameName == null && loanDate == null) {
+            loans.addAll(loanRepository.findAllByClientName(clientName));
+        } else if (loanDate != null && gameName == null && clientName == null) {
+            loans.addAll(loanRepository.findAllByLoanDate(loanDate));
+        } else if (gameName != null && clientName != null && loanDate == null) {
+            loans.addAll(loanRepository.findAllByGameNameAndClientName(gameName, clientName));
+        } else if (gameName != null && clientName == null && loanDate != null) {
+            loans.addAll(loanRepository.findAllByGameNameAndLoanDate(gameName, loanDate));
+        } else if (clientName != null && gameName == null && loanDate != null) {
+            loans.addAll(loanRepository.findAllByClientNameAndLoanDate(clientName, loanDate));
+        } else if (gameName != null && clientName != null && loanDate != null) {
+            loans.addAll(loanRepository.findAllByGameNameAndClientNameAndLoanDate(gameName, clientName, loanDate));
         }
+
         if (gameName == null && clientName == null && loanDate == null) {*/
         return loanRepository.findAll(pageable);
         /*} else {

@@ -20,8 +20,7 @@ INSERT INTO client(name) VALUES ('Rosa');
 INSERT INTO client(name) VALUES ('Ramón');
 INSERT INTO client(name) VALUES ('Roberta');
 
-INSERT INTO loan(game_name,client_name,loan_date,return_date) VALUES ('Juego 1','Cliente 1', '2020-01-01', '2020-01-06');
-INSERT INTO loan(game_name,client_name,loan_date,return_date) VALUES ('Juego 2','Cliente 2', '2020-01-02', '2020-01-14');
-INSERT INTO loan(game_name,client_name,loan_date,return_date) VALUES ('Juego 3','Cliente 3', '2020-01-07', '2020-01-14');
-INSERT INTO loan(game_name,client_name,loan_date,return_date) VALUES ('Juego 4','Cliente 4', '2020-01-01', '2020-01-09');
-INSERT INTO loan(game_name,client_name,loan_date,return_date) VALUES ('Juego 5','Cliente 4', '2020-01-01', '2020-01-09');
+INSERT INTO loan(game_name,client_name,loan_date,return_date) VALUES ('On Mars','Rosa', '2020-01-01', '2020-01-06');
+INSERT INTO loan(game_name,client_name,loan_date,return_date) VALUES ('Aventureros al tren','Ramón', '2020-01-02', '2020-01-14');
+INSERT INTO loan(game_name,client_name,loan_date,return_date) VALUES ('Azul','Roberta', '2020-01-07', '2020-01-14');
+INSERT INTO loan(game_name,client_name,loan_date,return_date) VALUES ('Barrage','Rosa', '2020-01-01', '2020-01-09');

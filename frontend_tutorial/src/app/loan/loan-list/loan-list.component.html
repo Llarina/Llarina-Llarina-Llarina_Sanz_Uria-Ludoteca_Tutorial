@@ -4,21 +4,30 @@
     <form>
         <mat-form-field class="filtro">
             <mat-label>Nombre del juego</mat-label>
-            <input type="text" matInput placeholder="Nombre del juego" [(ngModel)]="filterGameName" name="gameName">
+            <mat-select disableRipple [(ngModel)]="filterGameName" name="game">
+                <mat-option *ngFor="let game of games" [value]="game.title" [games]="games">
+                    {{game.title}}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
 
         <mat-form-field class="filtro">
             <mat-label>Nombre del cliente</mat-label>
-            <input type="text" matInput placeholder="Nombre del cliente" [(ngModel)]="filterClientName" name="clientName">
+            <mat-select disableRipple [(ngModel)]="filterClientName" name="client">
+                <mat-option *ngFor="let client of clients" [value]="client.name" [clients]="clients">
+                    {{client.name}}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
+    
 
         <mat-form-field class="filtro">
             <mat-label>Fecha</mat-label>
             <input type="date" matInput placeholder="Fecha de préstamo" [(ngModel)]="filterLoanDate" name="loanDate">
         </mat-form-field>
         
-        <button class="boton" mat-stroked-button (click)="onSearch()">Limpiar</button> 
-        <button class="boton" mat-stroked-button (click)="onCleanFilter()">Filtrar</button>   
+        <button class="boton" mat-stroked-button (click)="onSearch()">Filtrar</button> 
+        <button class="boton" mat-stroked-button (click)="onCleanFilter()">Limpiar</button>   
 
     </form>
 

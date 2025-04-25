@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
 import { Loan } from './model/Loan';
 import { Pageable } from '../core/model/page/Pageable';
 import { LoanPage } from './model/LoanPage';
-import {LoanSearchParams} from './LoanSearchParams';
+import { LoanSearchParams } from './LoanSearchParams';
+import { catchError } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,7 @@ export class LoanService {
       size: params.pageSize?.toString(),
       sort: params.sort
     };
-    console.log("http://localhost:8080/loan"+httpParams);
+    console.log("http://localhost:8080/loan" + httpParams);
     return this.http.get<LoanPage>('http://localhost:8080/loan', {
       params: httpParams
     });
@@ -30,34 +32,45 @@ export class LoanService {
 
   saveLoan(loan: Loan): Observable<Loan> {
     let url = 'http://localhost:8080/loan';
-        if (loan.id != null) url += '/'+loan.id;
+    if (loan.id != null) url += '/' + loan.id;
 
-        return this.http.put<Loan>(url, loan);
+    return this.http.put<Loan>(url, loan);
   }
 
 
-  deleteLoan(idLoan : number): Observable<any> {
-    return this.http.delete('http://localhost:8080/loan/'+idLoan);
-  }  
-  private composeFindUrl(gameName?: String, clientName?: String, loanDate?: Date) : string {
+  deleteLoan(idLoan: number): Observable<any> {
+    return this.http.delete('http://localhost:8080/loan/' + idLoan);
+  }
+  private composeFindUrl(gameName?: String, clientName?: String, loanDate?: Date): string {
     let params = '';
 
     if (gameName != null) {
-        params += 'gameName='+gameName;
+      params += 'gameName=' + gameName;
     }
 
     if (clientName != null) {
-      params += 'clientName='+clientName;
+      params += 'clientName=' + clientName;
     }
 
     if (loanDate != null) {
-      params += 'loanDate='+loanDate;
-  }
+      params += 'loanDate=' + loanDate;
+    }
 
     let url = 'http://localhost:8080/loan'
 
     if (params == '') return url;
-    else return url + '?'+params;
-}
+    else return url + '?' + params;
+  }
+
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      console.error('Error del lado del cliente:', error.error);
+    } else {
+      console.error(`Error del servidor (estado ${error.status}):`, error.error);
+    }
+    return throwError('Algo salió mal; por favor, intenta nuevamente más tarde.');
+  }
+
 
 }

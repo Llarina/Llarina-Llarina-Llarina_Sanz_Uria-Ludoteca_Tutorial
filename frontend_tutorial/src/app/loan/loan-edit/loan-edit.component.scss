@@ -16,4 +16,24 @@
           margin-left: 10px;
       }
     }
+
+}
+
+#datos{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.filtro{
+    width: 100%;
+}
+#fechas{
+    display: flex;
+    gap: 5px;
+}
+h1{
+    color: white;
+    text-align: center;
+    padding: 20px;
 }

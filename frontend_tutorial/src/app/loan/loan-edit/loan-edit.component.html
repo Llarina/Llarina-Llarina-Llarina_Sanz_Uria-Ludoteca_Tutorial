@@ -1,39 +1,46 @@
-<h1>Crear Préstamo</h1>
-<form>
-    <mat-form-field>
-        <mat-label>Identificador</mat-label>
-        <input type="text" matInput placeholder="Identificador" [(ngModel)]="loan.id" name="id" disabled>
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-        <mat-label>Nombre del Juego</mat-label>
-        <input type="text" matInput placeholder="Nombre del juego" [(ngModel)]="loan.gameName" name="gameName" required>
-        <mat-error>El nombre del juego no puede estar vacío</mat-error>
-    </mat-form-field>
-    <br>
-    <br>
-    <mat-form-field>
-        <mat-label>Nombre del clinte</mat-label>
-        <input type="text" matInput placeholder="Nombre del cliente" [(ngModel)]="loan.clientName" name="clientName" required>
-        <mat-error>El nombre del cliente no puede estar vacío</mat-error>
-    </mat-form-field>
+<h1>Crear Préstamo</h1><form>
 
-    <br>
-    <mat-form-field>
-        <mat-label>Fecha de préstamo</mat-label>
-        <input type="date" matInput placeholder="Fecha de préstamo" [(ngModel)]="loan.loanDate" name="loanDate" required>
-        <mat-error>Las fechas no pueden estar vacías</mat-error>
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-        <mat-label>Fecha de devolución</mat-label>
-        <input type="date" matInput placeholder="Fecha de devolución" [(ngModel)]="loan.returnDate" name="reurnDate" required>
-        <mat-error>Las fechas no pueden estar vacías</mat-error>
-    </mat-form-field>
+    <div id="datos">
+        <mat-form-field class="filtro">
+            <mat-label for="id">Identificador</mat-label>
+            <input type="text" matInput placeholder="Identificador" [(ngModel)]="loan.id" name="id" disabled id="id">
+        </mat-form-field>
+
+        <mat-form-field class="filtro" *ngIf="games">
+            <mat-label for="gameName">Nombre del juego</mat-label>
+            <mat-select disableRipple [(ngModel)]="loan.gameName" name="loan" id="gameName">
+                <mat-option *ngFor="let game of games" [value]="game.title" [games]="games">
+                    {{game.title}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="filtro" *ngIf="clients">
+            <mat-label for="clientName">Nombre del cliente</mat-label>
+            <mat-select disableRipple [(ngModel)]="loan.clientName" name="loan" id="clientName">
+                <mat-option *ngFor="let client of clients" [value]="client.name"  [clients]="clients">
+                    {{client.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div id="fechas">
+        <mat-form-field>
+            <mat-label for="loanDate">Fecha de préstamo</mat-label>
+            <input type="date" matInput placeholder="Fecha de préstamo" [(ngModel)]="loan.loanDate" name="loanDate" required id="loanDate">
+            <mat-error>Las fechas no pueden estar vacías</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label for="returnDate">Fecha de devolución</mat-label>
+            <input type="date" matInput placeholder="Fecha de devolución" [(ngModel)]="loan.returnDate" name="returnDate" required id="returnDate">
+            <mat-error>Las fechas no pueden estar vacías</mat-error>
+        </mat-form-field>
+    </div>
 
 </form>
 
-<div class="buttons">
+<div class="buttons" onclick="SubmitEvent">
     <button mat-stroked-button (click)="onClose()">Cerrar</button>
     <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
 </div>

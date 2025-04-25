@@ -16,4 +16,12 @@ public interface LoanRepository extends CrudRepository<Loan, Long>, JpaSpecifica
 
     List<Loan> findAllByLoanDate(Date loanDate);
 
+    List<Loan> findAllByGameNameAndClientNameAndLoanDate(String gameName, String clientName, Date loanDate);
+
+    List<Loan> findAllByGameNameAndClientName(String gameName, String clientName);
+
+    List<Loan> findAllByGameNameAndLoanDate(String gameName, Date loanDate);
+
+    List<Loan> findAllByClientNameAndLoanDate(String clientName, Date loanDate);
+
 }
