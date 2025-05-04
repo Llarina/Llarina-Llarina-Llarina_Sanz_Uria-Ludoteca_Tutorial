@@ -21,9 +21,9 @@ export class LoanListComponent implements OnInit {
   dataSource = new MatTableDataSource<Loan>();
   displayedColumns: string[] = ['id', 'gameName', 'clientName', 'loanDate', 'returnDate', 'action'];
   loans: any;
-  filterGameName: string;
-  filterClientName: string;
-  filterLoanDate: Date;
+  filterGameName: string = null;
+  filterClientName: string  = null;
+  filterLoanDate: Date = null;
   pageNumber: number = 0;
   pageSize: number = 5;
   totalElements: number = 0;
@@ -41,6 +41,8 @@ export class LoanListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPage();
+
+    console.log("INICIOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 
     this.clientService.getClients().subscribe(
       clients => { this.clients = clients }
@@ -61,23 +63,18 @@ export class LoanListComponent implements OnInit {
   }
 
   onSearch(): void {
+    this.loadPage();
 
-    let gameName = this.filterGameName;
-    let clientName = this.filterClientName;
-    let loanDate = this.filterLoanDate;
+    console.log("On Search");
 
-
-
-    this.loanService.getLoans({
-      gameName: this.filterGameName,
-      clientName: this.filterClientName,
-      loanDate: this.filterLoanDate,
-      pageNumber: this.pageNumber,
-      pageSize: this.pageSize,
-      sort: 'id,asc' // o el criterio de orden que prefieras
-    }).subscribe(
-      loans => this.loans = loans
+    this.clientService.getClients().subscribe(
+      clients => { this.clients = clients }
     );
+
+    this.gameService.getGames().subscribe(
+      games => { this.games = games }
+    );
+  
   }
 
   createLoan() {
@@ -111,14 +108,31 @@ export class LoanListComponent implements OnInit {
       this.pageNumber = event.pageIndex;
     }
 
-    this.loanService.getLoans({
-      gameName: this.filterGameName,
-      clientName: this.filterClientName,
-      loanDate: this.filterLoanDate,
-      pageNumber: this.pageNumber,
-      pageSize: this.pageSize,
-      sort: 'id,asc'
-    }).subscribe(data => {
+    
+    
+    const params: { [key: string]: any } = {};
+
+    if (this.filterGameName) {
+     params.gameName = this.filterGameName;
+    }
+    if (this.filterClientName) {
+    params.clientName = this.filterClientName;
+    }
+    if (this.filterLoanDate) {
+     params.loanDate = this.filterLoanDate instanceof Date ? this.filterLoanDate : new Date(this.filterLoanDate);
+    }
+    params.page = this.pageNumber;
+    params.size = this.pageSize;
+    params.sort = 'id,asc';
+
+
+
+
+    this.loanService.getLoans(params)
+    .subscribe(data => {
+
+      console.log(data+", "+data.content+"              ----------------       --------")
+
       if (data && data.content) {
         this.dataSource.data = data.content; // Asignar los datos a la fuente de la tabla
         this.pageNumber = data.pageable.pageNumber;

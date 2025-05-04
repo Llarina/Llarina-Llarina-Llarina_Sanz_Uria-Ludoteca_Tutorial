@@ -63,7 +63,7 @@ public class LoanController {
     @Operation(summary = "Find with filters and pagination", description = "Method that returns a page of Loans with filters and pagination")
     @GetMapping
     public Page<Loan> findLoans(@RequestParam(required = false) String gameName, @RequestParam(required = false) String clientName, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date loanDate,
-            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "id,asc") String sort) {
+            @RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "5") int size, @RequestParam(required = false, defaultValue = "id,asc") String sort) {
 
         // Si loanDate es nulo, se maneja como null, para no causar un error de conversión
         if (loanDate == null) {

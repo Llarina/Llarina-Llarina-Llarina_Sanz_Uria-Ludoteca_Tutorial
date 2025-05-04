@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Loan } from './model/Loan';
-import { Pageable } from '../core/model/page/Pageable';
 import { LoanPage } from './model/LoanPage';
-import { LoanSearchParams } from './LoanSearchParams';
-import { catchError } from 'rxjs/operators';
+
 
 
 @Injectable({
@@ -15,18 +13,9 @@ export class LoanService {
 
   constructor(private http: HttpClient) { }
 
-  getLoans(params: LoanSearchParams): Observable<LoanPage> {
-    const httpParams = {
-      gameName: params.gameName,
-      clientName: params.clientName,
-      loanDate: params.loanDate ? params.loanDate.toISOString().split('T')[0] : '2020-01-01',
-      page: params.pageNumber?.toString(),
-      size: params.pageSize?.toString(),
-      sort: params.sort
-    };
-    console.log("http://localhost:8080/loan" + httpParams);
+  getLoans(params): Observable<LoanPage> {
     return this.http.get<LoanPage>('http://localhost:8080/loan', {
-      params: httpParams
+      params
     });
   }
 

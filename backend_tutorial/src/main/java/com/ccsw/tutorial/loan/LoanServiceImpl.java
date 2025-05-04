@@ -6,10 +6,12 @@ import com.ccsw.tutorial.loan.model.LoanDto;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +34,9 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public Page<Loan> findLoans(String gameName, String clientName, Date loanDate, Pageable pageable, String sort) {
-        /*List<Loan> loans = new ArrayList<>();
+        System.out.println("Game name: " + gameName + " Client name: " + clientName + " Date: " + loanDate + " Pageable: " + pageable + " Sort: " + sort);
+        List<Loan> loans = new ArrayList<>();
+
         if (gameName != null && clientName == null && loanDate == null) {
             loans.addAll(loanRepository.findAllByGameName(gameName));
         } else if (clientName != null && gameName == null && loanDate == null) {
@@ -49,11 +53,13 @@ public class LoanServiceImpl implements LoanService {
             loans.addAll(loanRepository.findAllByGameNameAndClientNameAndLoanDate(gameName, clientName, loanDate));
         }
 
-        if (gameName == null && clientName == null && loanDate == null) {*/
-        return loanRepository.findAll(pageable);
-        /*} else {
-            return (Page<Loan>) loans;
-        }*/
+        if (gameName == null && clientName == null && loanDate == null) {
+            return loanRepository.findAll(pageable);
+        } else {
+            int start = (int) pageable.getOffset();
+            int end = Math.min((start + pageable.getPageSize()), loans.size());
+            return new PageImpl<>(loans.subList(start, end), pageable, loans.size());
+        }
     }
 
     /**
