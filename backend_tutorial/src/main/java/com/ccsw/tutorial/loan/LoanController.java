@@ -69,11 +69,9 @@ public class LoanController {
         if (loanDate == null) {
             loanDate = null;  // Si prefieres otro valor predeterminado, puedes configurarlo aquí.
         }
-        System.out.println("aaaaaab");
         // Parsear el parámetro sort para manejar el orden ascendente/descendente
         String[] sortParams = sort.split(",");
         Sort.Order sortOrder = sortParams.length > 1 && sortParams[1].equalsIgnoreCase("desc") ? Sort.Order.desc(sortParams[0]) : Sort.Order.asc(sortParams[0]);
-        System.out.println("aaaaaac");
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortOrder));
 
         // Llamada al servicio para obtener los préstamos con filtros aplicados

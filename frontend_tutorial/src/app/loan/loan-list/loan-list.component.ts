@@ -22,27 +22,25 @@ export class LoanListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'gameName', 'clientName', 'loanDate', 'returnDate', 'action'];
   loans: any;
   filterGameName: string = null;
-  filterClientName: string  = null;
+  filterClientName: string = null;
   filterLoanDate: Date = null;
   pageNumber: number = 0;
   pageSize: number = 5;
   totalElements: number = 0;
   filterLoan: Loan;
-  clients: Client[]=[];
-  games: Game[]=[];
+  clients: Client[] = [];
+  games: Game[] = [];
 
 
   constructor(
     private loanService: LoanService,
     public dialog: MatDialog,
-    private clientService : ClientService,
-    private gameService : GameService,
+    private clientService: ClientService,
+    private gameService: GameService,
   ) { }
 
   ngOnInit(): void {
     this.loadPage();
-
-    console.log("INICIOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 
     this.clientService.getClients().subscribe(
       clients => { this.clients = clients }
@@ -65,8 +63,6 @@ export class LoanListComponent implements OnInit {
   onSearch(): void {
     this.loadPage();
 
-    console.log("On Search");
-
     this.clientService.getClients().subscribe(
       clients => { this.clients = clients }
     );
@@ -74,7 +70,7 @@ export class LoanListComponent implements OnInit {
     this.gameService.getGames().subscribe(
       games => { this.games = games }
     );
-  
+
   }
 
   createLoan() {
@@ -108,19 +104,21 @@ export class LoanListComponent implements OnInit {
       this.pageNumber = event.pageIndex;
     }
 
-    
-    
+
+
     const params: { [key: string]: any } = {};
 
     if (this.filterGameName) {
-     params.gameName = this.filterGameName;
+      params.gameName = this.filterGameName;
     }
     if (this.filterClientName) {
-    params.clientName = this.filterClientName;
+      params.clientName = this.filterClientName;
     }
+
     if (this.filterLoanDate) {
-     params.loanDate = this.filterLoanDate instanceof Date ? this.filterLoanDate : new Date(this.filterLoanDate);
+      params.loanDate = this.filterLoanDate;
     }
+
     params.page = this.pageNumber;
     params.size = this.pageSize;
     params.sort = 'id,asc';
@@ -129,22 +127,20 @@ export class LoanListComponent implements OnInit {
 
 
     this.loanService.getLoans(params)
-    .subscribe(data => {
+      .subscribe(data => {
 
-      console.log(data+", "+data.content+"              ----------------       --------")
-
-      if (data && data.content) {
-        this.dataSource.data = data.content; // Asignar los datos a la fuente de la tabla
-        this.pageNumber = data.pageable.pageNumber;
-        this.pageSize = data.pageable.pageSize;
-        this.totalElements = data.totalElements;
-      } else {
-        console.log('No se han encontrado datos');
-      }
-    },
-    error => {
-      console.error('Error al cargar los datos', error);
-    });
+        if (data && data.content) {
+          this.dataSource.data = data.content; // Asignar los datos a la fuente de la tabla
+          this.pageNumber = data.pageable.pageNumber;
+          this.pageSize = data.pageable.pageSize;
+          this.totalElements = data.totalElements;
+        } else {
+          console.log('No se han encontrado datos');
+        }
+      },
+        error => {
+          console.error('Error al cargar los datos', error);
+        });
 
   }
 }
